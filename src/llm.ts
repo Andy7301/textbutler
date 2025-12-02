@@ -63,8 +63,13 @@ export async function analyzeMessageWithLLM(
     throw new Error('No response text from Gemini API');
   }
 
+  // Try to extract JSON from response (handle cases where response includes markdown code blocks)
   let jsonText = response.text.trim();
   
+  if (jsonText.startsWith('```')) {
+    jsonText = jsonText.replace(/^```(?:json)?\n?/i, '').replace(/\n?```$/i, '');
+  }
+
   try {
     const parsed = JSON.parse(jsonText) as Partial<MessageAnalysis>;
     
@@ -82,7 +87,7 @@ export async function analyzeMessageWithLLM(
     console.error('Failed to parse Gemini response:', error);
     console.error('Response text:', response.text);
     
-    // Return defaults
+    // Return safe defaults
     return {
       priority: 'medium',
       vibe: 'neutral',
