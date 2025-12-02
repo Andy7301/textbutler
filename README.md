@@ -22,7 +22,7 @@ An intelligent iMessage assistant that analyzes incoming messages and provides s
 
 1. Clone the repository:
 ```bash
-git clone <https://github.com/Andy7301/textbutler>
+git clone https://github.com/Andy7301/textbutler.git
 cd textbutler
 ```
 
